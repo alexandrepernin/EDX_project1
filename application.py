@@ -1,10 +1,11 @@
 import os
 
-from flask import Flask, session
+from flask import Flask, session, render_template, request
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+# Create Flask variable app (for routes definition for instance)
 app = Flask(__name__)
 
 # Check for environment variable
@@ -23,4 +24,17 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    return "Project 1: TODO"
+    return render_template("index.html")
+
+@app.route("/sign_in")
+def sign_in():
+    return render_template("sign_in.html")
+
+@app.route("/hello", methods=["POST"])
+def hello():
+    username = request.form.get("username")
+    return render_template("hello.html", name=username)
+
+@app.route("/sign_up")
+def sign_up():
+    return render_template("sign_up.html")
