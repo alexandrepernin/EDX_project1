@@ -32,7 +32,7 @@ def sign_in():
 
 @app.route("/sign_up")
 def sign_up():
-    return render_template("sign_up.html")
+    return render_template("sign_up.html", incorrecr=False)
 
 
 @app.route("/hello", methods=["GET", "POST"])
@@ -44,7 +44,7 @@ def hello():
         pwd = request.form.get("password")
         # Make sure the username and password are correct.
         if db.execute("SELECT * FROM users WHERE username = :user AND pwd = :password",{"user": username, "password":pwd}).rowcount == 0:
-            return render_template("hello.html", name="ERROR!!")
+            return render_template("sign_in.html", incorrect=True)
         else:
             return render_template("hello_existing_user.html", name=username)
 
