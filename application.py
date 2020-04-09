@@ -30,11 +30,32 @@ def index():
 def sign_in():
     return render_template("sign_in.html")
 
-@app.route("/hello", methods=["POST"])
+@app.route("/hello", methods=["GET", "POST"])
 def hello():
-    username = request.form.get("username")
-    return render_template("hello.html", name=username)
+    if request.method=="GET":
+        return "Please submit the form before accessing this page"
+    else:
+        username = request.form.get("username")
+        pwd = request.form.get("password")
+        # Make sure the flight exists.
+        if db.execute("SELECT * FROM users WHERE username = :user AND pwd = :password",{"user": username, "password":pwd}).rowcount == 0:
+            return render_template("hello.html", name="ERROR!!")
+        else:
+            return render_template("hello.html", name=username)
 
 @app.route("/sign_up")
 def sign_up():
     return render_template("sign_up.html")
+
+@app.route("/first_visit", methods=["GET", "POST"])
+def first_visit():
+    if request.method=="GET":
+        return "Please submit the form before accessing this page"
+    else:
+        new_username = request.form.get("username")
+        new_pwd = request.form.get("password")
+        # TO DO: handle case where user sign ups twice
+        db.execute("INSERT INTO users (username, pwd) VALUES (:username, :password)",
+                    {"username": new_username, "password": new_pwd})
+        db.commit()
+        return render_template("hello.html", name=new_username)

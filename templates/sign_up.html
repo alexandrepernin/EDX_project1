@@ -4,7 +4,11 @@
         <title>My Website!</title>
     </head>
     <body>
-        <h1> Sign up </h1>
-
+        <h1> Sign up Page </h1>
+        <form action="{{ url_for('first_visit') }}" method="post">
+          <input type="text" name="username" placeholder="Enter Your Username">
+          <input type="text" name="password" placeholder="Enter Your Password">
+          <button>Submit</button>
+        </form>
     </body>
 </html>
