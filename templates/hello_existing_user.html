@@ -6,5 +6,8 @@
     <body>
         <h1> Hello {{ name }} </h1>
         <a href="{{ url_for('book_search')}}"> Search a first book </a>
+        <form action="{{ url_for('index')}}">
+          <button>Sign Out</button>
+        </form>
     </body>
 </html>
