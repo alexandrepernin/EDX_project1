@@ -56,10 +56,12 @@ def first_visit():
         new_username = request.form.get("username")
         new_pwd = request.form.get("password")
         # TO DO: handle case where user sign ups twice
-        db.execute("INSERT INTO users (username, pwd) VALUES (:username, :password)",
-                    {"username": new_username, "password": new_pwd})
-        db.commit()
-        return render_template("welcome_new_user.html", name=new_username)
+        if db.execute("SELECT * FROM users WHERE username = :user",{"user": new_username}).rowcount > 0:
+            return render_template("account_exists.html")
+        else:
+            db.execute("INSERT INTO users (username, pwd) VALUES (:username, :password)", {"username": new_username, "password": new_pwd})
+            db.commit()
+            return render_template("welcome_new_user.html", name=new_username)
 
 
 @app.route("/book_search")
