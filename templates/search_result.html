@@ -19,6 +19,9 @@
 
 {% else %}
     <p> Sorry, seems we don't have this book in our database... </p>
+    <br>
+    <a href="{{ url_for('search')}}" class="btn btn-outline-success" role="button" aria-pressed="true"> Search an other book </a>
+    <br>
 {% endif %}
 
 {% endblock %}
