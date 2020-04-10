@@ -7,24 +7,18 @@
 {% block body %}
 
 
-{% if len>1 %}
-    Found {{len}} potential matches:
+{% if len>=1 %}
+    Found {{len}} potential match(es):
     <br>
     <br>
     <div class="list-group">
       {% for result in results %}
-        <a href="#" class="list-group-item list-group-item-action"> {{ result.title }}, by {{ result.author}} ({{ result.year}}). ISBN: #{{ result.isbn }}.</a>
+        <a href="{{ url_for('book', isbn=result.isbn) }}" class="list-group-item list-group-item-action"> {{ result.title }}, by {{ result.author}} ({{ result.year}}). ISBN: #{{ result.isbn }}.</a>
       {% endfor %}
     </div>
 
-
-{% elif len==1 %}
-    Found {{len}} potential match:
-    <p> {{ results[0].isbn }}, {{ results[0].title }},  {{ results[0].author}}, {{ results[0].year}} </p>
-
-
 {% else %}
-    Sorry, seems we don't have this book in our database...
+    <p> Sorry, seems we don't have this book in our database... </p>
 {% endif %}
 
 {% endblock %}
