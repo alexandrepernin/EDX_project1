@@ -1,14 +1,20 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>My Website!</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-    </head>
-    <body>
-        <h1> Hello {{ name }}, I'm glad you signed up! Click "Search my first book !" to search a book :) </h1>
-        <a href="{{ url_for('book_search')}}"> Search my first book ! </a>
-        <form action="{{ url_for('index')}}">
-          <button>Sign Out</button>
-        </form>
-    </body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}
+    Hello
+{% endblock %}
+
+
+{% block body %}
+<p> Welcome {{ name }} </p>
+<br>
+<br>
+<a href="{{ url_for('search')}}" class="btn btn-outline-success" role="button" aria-pressed="true"> Search my first book ! </a>
+<br>
+
+{% endblock %}
+
+
+{% block rightcorner %}
+<a href="{{ url_for('index')}}" class="btn btn-outline-danger" role="button" aria-pressed="true"> Sign Out </a>
+{% endblock %}

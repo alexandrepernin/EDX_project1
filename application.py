@@ -65,5 +65,13 @@ def first_visit():
 
 
 @app.route("/book_search")
-def book_search():
-    return render_template("book_search.html")
+def search():
+    return render_template("search.html")
+
+@app.route("/search_result", methods = ["POST"])
+def search_result():
+    isbn = request.form.get("isbn")
+    title = request.form.get("title")
+    author = request.form.get("author")
+    results = db.execute("SELECT * FROM books WHERE isbn = :isbn OR title = :title OR author = :author",{"isbn": isbn, "title":title, "author":author}).fetchall()
+    return render_template("search_result.html", results=results, len=len(results))

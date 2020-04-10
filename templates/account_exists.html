@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>My Website!</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-    </head>
-    <body>
-        <h1> Sorry, it seems you already have an account. </h1>
-        <ul>
-          <li> <a href="{{ url_for('sign_in')}}"> Sign in </a>
-        </ul>
-    </body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}
+    Account
+{% endblock %}
+
+
+{% block body %}
+<p> Sorry, it seems you already have an account. </p>
+<a href="{{ url_for('sign_in')}}" class="btn btn-primary btn-lg" role="button" aria-pressed="true"> Sign in </a>
+{% endblock %}
