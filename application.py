@@ -82,5 +82,5 @@ def search_result():
 @app.route("/books/<string:isbn>")
 def book(isbn):
     isbn=str(isbn)
-    book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchall()
-    return render_template("book.html")
+    book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
+    return render_template("book.html",book=book)
