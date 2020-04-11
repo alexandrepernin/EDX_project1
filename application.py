@@ -92,8 +92,9 @@ def review():
     review = request.form.get("review")
     grade = request.form.get("grade")
     isbn = request.form.get("isbn")
-    # db.execute("INSERT INTO reviews (isbn, review, grade) VALUES (:isbn, :review, :grade)",
-    #         {"isbn": isbn, "review": review, "grade": grade})
-    # db.commit()
+    user=db.execute("SELECT id FROM users WHERE username = :username", {"username": session["Username"]}).fetchone()
+    db.execute("INSERT INTO reviews (isbn, user_id, review, grade) VALUES (:isbn, :id, :review, :grade)",
+            {"isbn": isbn, "id": user.id, "review": review, "grade": grade})
+    db.commit()
 
-    return render_template("review.html", grade=grade, review=review, isbn=isbn, username=session["Username"])
+    return render_template("review.html", grade=grade, review=review, isbn=isbn, username=session["Username"]+str(user.id))
