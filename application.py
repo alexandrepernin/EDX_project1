@@ -85,7 +85,8 @@ def search_result():
 def book(isbn):
     isbn=str(isbn)
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
-    return render_template("book.html",book=book)
+    reviews = db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).fetchall()
+    return render_template("book.html",book=book, reviews=reviews, reviewnb=len(reviews))
 
 @app.route("/review", methods = ["POST"])
 def review():

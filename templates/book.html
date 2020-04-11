@@ -1,10 +1,10 @@
-{% extends "layout.html" %}
+{% extends "layout_book.html" %}
 
 {% block title %}
     Book
 {% endblock %}
 
-{% block body %}
+{% block left %}
 
 <table class="table">
     <tbody>
@@ -26,8 +26,34 @@
         </tr>
     </tbody>
 </table>
+{% endblock %}
+
+{% block middle %}
+<h6> Ratings for that book:</h6>
 <br>
-<h6> Want to share your thoughts? Please leave a review:</h6>
+{% if reviewnb>0 %}
+<div class="list-group">
+  {% for review in reviews %}
+  <a href="#" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">User #{{review.user_id}}</h5>
+      <small>Grade: {{review.grade}}/5</small>
+    </div>
+
+    <p>{{review.review}}</p>
+  </a>
+
+  {% endfor %}
+</div>
+{% else %}
+<p> No review for that book </p>
+{% endif %}
+
+
+
+<br>
+<br>
+<h6> Would like to add yours?</h6>
 
 
 <form action="{{ url_for('review', isbn=book.isbn) }}" method="post">
