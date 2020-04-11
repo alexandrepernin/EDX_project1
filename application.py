@@ -93,8 +93,13 @@ def review():
     grade = request.form.get("grade")
     isbn = request.form.get("isbn")
     user=db.execute("SELECT id FROM users WHERE username = :username", {"username": session["Username"]}).fetchone()
-    db.execute("INSERT INTO reviews (isbn, user_id, review, grade) VALUES (:isbn, :id, :review, :grade)",
-            {"isbn": isbn, "id": user.id, "review": review, "grade": grade})
-    db.commit()
 
-    return render_template("review.html", grade=grade, review=review, isbn=isbn, username=session["Username"]+str(user.id))
+    previous_review = db.execute("SELECT * FROM reviews WHERE user_id = :user AND isbn = :isbn",{"user": user.id, "isbn": isbn}).fetchall()
+    if len(previous_review)>0:
+        return render_template("review.html", grade=previous_review[0].grade, review=previous_review[0].review, isbn=isbn, username=session["Username"], new=False)
+    else:
+        db.execute("INSERT INTO reviews (isbn, user_id, review, grade) VALUES (:isbn, :id, :review, :grade)",
+                {"isbn": isbn, "id": user.id, "review": review, "grade": grade})
+        db.commit()
+
+        return render_template("review.html", grade=grade, review=review, isbn=isbn, username=session["Username"], new=True)
