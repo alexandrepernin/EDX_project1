@@ -27,10 +27,11 @@
     </tbody>
 </table>
 <br>
-<p> Want to share what you thought about this book? Please leave a review:
+<h6> Want to share your thoughts? Please leave a review:</h6>
 
 
-<form action="{{ url_for('review') }}" method="post">
+<form action="{{ url_for('review', isbn=book.isbn) }}" method="post">
+
 
   <div class="form-group">
     <label for="exampleFormControlSelect1">Grade</label>
@@ -46,6 +47,13 @@
   <div class="form-group">
     <label for="exampleFormControlTextarea1">Review</label>
     <textarea name="review" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+
+  <div class="form-group row">
+    <label for="staticEmail" class="col-sm-2 col-form-label">ISBN:</label>
+    <div class="col-sm-10">
+      <input name="isbn" type="text" readonly class="form-control-plaintext" id="staticEmail" value={{book.isbn}}>
+    </div>
   </div>
 
   <button type="submit" class="btn btn-info">Submit Review</button>

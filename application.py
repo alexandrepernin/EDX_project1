@@ -89,8 +89,9 @@ def book(isbn):
 def review():
     review = request.form.get("review")
     grade = request.form.get("grade")
-    # db.execute("INSERT INTO reviews (review, grade) VALUES (:review, :grade)",
-    #         {"review": review, "grade": grade})
+    isbn = request.form.get("isbn")
+    # db.execute("INSERT INTO reviews (isbn, review, grade) VALUES (:isbn, :review, :grade)",
+    #         {"isbn": isbn, "review": review, "grade": grade})
     # db.commit()
 
-    return render_template("review.html", grade=grade, review=review)
+    return render_template("review.html", grade=grade, review=review, isbn=isbn)
