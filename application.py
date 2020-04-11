@@ -46,6 +46,7 @@ def hello():
         if db.execute("SELECT * FROM users WHERE username = :user AND pwd = :password",{"user": username, "password":pwd}).rowcount == 0:
             return render_template("sign_in.html", incorrect=True)
         else:
+            session["Username"] = username
             return render_template("hello_existing_user.html", name=username)
 
 @app.route("/first_visit", methods=["GET", "POST"])
@@ -55,12 +56,13 @@ def first_visit():
     else:
         new_username = request.form.get("username")
         new_pwd = request.form.get("password")
-        # TO DO: handle case where user sign ups twice
+        # Handles case where user sign ups twice
         if db.execute("SELECT * FROM users WHERE username = :user",{"user": new_username}).rowcount > 0:
             return render_template("account_exists.html")
         else:
             db.execute("INSERT INTO users (username, pwd) VALUES (:username, :password)", {"username": new_username, "password": new_pwd})
             db.commit()
+            session["Username"] = new_username
             return render_template("welcome_new_user.html", name=new_username)
 
 
@@ -94,4 +96,4 @@ def review():
     #         {"isbn": isbn, "review": review, "grade": grade})
     # db.commit()
 
-    return render_template("review.html", grade=grade, review=review, isbn=isbn)
+    return render_template("review.html", grade=grade, review=review, isbn=isbn, username=session["Username"])
