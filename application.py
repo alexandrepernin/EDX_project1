@@ -84,3 +84,13 @@ def book(isbn):
     isbn=str(isbn)
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
     return render_template("book.html",book=book)
+
+@app.route("/review", methods = ["POST"])
+def review():
+    review = request.form.get("review")
+    grade = request.form.get("grade")
+    # db.execute("INSERT INTO reviews (review, grade) VALUES (:review, :grade)",
+    #         {"review": review, "grade": grade})
+    # db.commit()
+
+    return render_template("review.html", grade=grade, review=review)

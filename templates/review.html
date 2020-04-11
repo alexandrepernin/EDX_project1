@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Hello
+{% endblock %}
+
+
+{% block body %}
+<h1> Thanks for your contribution! </h1>
+<br>
+<p> Grade: {{grade}}, Review: {{review}} </p>
+<br>
+<a href="{{ url_for('search')}}" class="btn btn-outline-success" role="button" aria-pressed="true"> Search a book </a>
+<br>
+
+{% endblock %}
+
+
+{% block rightcorner %}
+<a href="{{ url_for('index')}}" class="btn btn-outline-danger" role="button" aria-pressed="true"> Sign Out </a>
+{% endblock %}
