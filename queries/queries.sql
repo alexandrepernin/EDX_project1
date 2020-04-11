@@ -14,6 +14,16 @@ CREATE TABLE books (
     year INT NOT NULL
 );
 
+CREATE TABLE reviews (
+    id SERIAL PRIMARY KEY,
+    isbn VARCHAR NOT NULL,
+    username VARCHAR NOT NULL,
+    review VARCHAR NOT NULL
+);
+
+ALTER TABLE "reviews"
+ADD "grade" integer NOT NULL;
+
 
 INSERT INTO users (username, pwd) VALUES ('alexandrepernin', 'test');
 
