@@ -73,10 +73,12 @@ def search():
 @app.route("/books", methods = ["POST"])
 def search_result():
     isbn = request.form.get("isbn")
-    isbn = str(isbn)
     title = request.form.get("title")
     author = request.form.get("author")
-    results = db.execute("SELECT * FROM books WHERE isbn = :isbn OR title = :title OR author = :author",{"isbn": isbn, "title":title, "author":author}).fetchall()
+    isbn = '%'+str(isbn)+'%' if len(isbn)>0 else str(isbn)
+    title = '%'+title+'%' if len(title)>0 else title
+    author = '%'+author+'%' if len(author)>0 else author
+    results = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn OR title LIKE :title OR author LIKE :author",{"isbn": isbn, "title":title, "author":author}).fetchall()
     #print(results)
     return render_template("search_result.html", results=results, len=len(results))
 
