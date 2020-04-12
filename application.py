@@ -1,8 +1,10 @@
 import os
+import numpy as np
 import requests
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
+from sqlalchemy.sql import func
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 # Create Flask variable app (for routes definition for instance)
@@ -109,3 +111,29 @@ def review():
         db.commit()
 
         return render_template("review.html", grade=grade, review=review, isbn=isbn, username=session["Username"], new=True)
+
+
+@app.route("/api/books/<string:isbn>")
+def book_api(isbn):
+    # Make sure flight exists.
+    book = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn": isbn}).fetchall()[0]
+    if book is None:
+        return jsonify({"error": "Invalid ISBN Number"}), 404
+
+    review_count=db.execute("SELECT * FROM reviews WHERE isbn = :isbn",{"isbn": isbn}).rowcount
+    grades = db.execute("SELECT * FROM reviews WHERE isbn = :isbn",{"isbn": isbn}).fetchall()
+
+    if len(grades)>0:
+        grades=[int(grades[x].grade) for x in range(len(grades))]
+        average_score = np.array(grades).mean()
+    else: average_score="NA"
+
+
+    return jsonify({
+        "title": book.title,
+        "author": book.author,
+        "year": book.year,
+        "isbn": book.isbn,
+        "review_count":review_count ,
+        "average_score": average_score
+})
