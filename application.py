@@ -1,5 +1,5 @@
 import os
-
+import requests
 from flask import Flask, session, render_template, request
 from flask_session import Session
 from sqlalchemy import create_engine
@@ -88,7 +88,10 @@ def book(isbn):
     isbn=str(isbn)
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
     reviews = db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).fetchall()
-    return render_template("book.html",book=book, reviews=reviews, reviewnb=len(reviews))
+    goodreads = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "0BnTXldL5qD8QiRIybiNg", "isbns": isbn}).json()
+    rating = goodreads["books"][0]["average_rating"]
+    ratings_count = goodreads["books"][0]["ratings_count"]
+    return render_template("book.html",book=book, reviews=reviews, reviewnb=len(reviews), rating=[rating, ratings_count])
 
 @app.route("/review", methods = ["POST"])
 def review():

@@ -25,6 +25,14 @@
           <th>ISBN</th>
             <td>{{book.isbn}}</td>
         </tr>
+        <tr>
+          <th>Average Goodreads Rating</th>
+          {% if rating[1]>0 %}
+            <td>{{rating[0]}}/5</td>
+          {% else %}
+            <td>Not available</td>
+          {% endif %}
+        </tr>
     </tbody>
 </table>
 {% endblock %}
