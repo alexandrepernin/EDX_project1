@@ -113,7 +113,7 @@ def review():
         return render_template("review.html", grade=grade, review=review, isbn=isbn, username=session["Username"], new=True)
 
 
-@app.route("/api/books/<string:isbn>")
+@app.route("/api/<string:isbn>")
 def book_api(isbn):
     # Make sure flight exists.
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn": isbn}).fetchall()[0]
