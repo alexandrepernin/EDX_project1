@@ -12,4 +12,4 @@ Files:
 -application.py is the main Python file.  
 -import.py is a program that takes the books contained in books.csv and import them into a PostgreSQL database. This database also contains a table for reviews (stores isbn, user id, grade and review) and one for users (stores username and password).  
 -All html files are within the templates folder. All but one extend layout.html. Book.html extends layout_book.html (book page of the website). They all leverage Bootstrap4 and the styling defined in css/styles.css.  
--Queries.sql contains a bunch of sql queries that have useful while building the website.
+-Queries.sql contains a bunch of sql queries that have been useful while building the website.
